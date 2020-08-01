@@ -18,8 +18,8 @@ public class Application implements Runnable {
     @Override
     public void run() {
         log.info("Start searching...");
-        System.out.println("Start searching...");
         final var start = System.currentTimeMillis();
+        System.out.println("Start searching...");
         final var entries = names.size();
         final var found = names.stream()
                 .map(phoneBook::findByNameLinearSearch)

@@ -1,8 +1,6 @@
 package phonebook;
 
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -16,12 +14,12 @@ public class PhoneBook {
         this.records = new ArrayList<>();
     }
 
-    public PhoneBook(final String url) throws IOException {
+    public PhoneBook(final String url) {
         load(url);
     }
 
-    void load(final String url) throws IOException {
-        records = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8)
+    void load(final String data) {
+        records = new Scanner(data)
                 .useDelimiter("\\R")
                 .tokens()
                 .map(PhoneBookEntry::new)
