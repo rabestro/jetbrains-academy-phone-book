@@ -9,4 +9,8 @@ public class PhoneBookEntry {
         phone = tokens[0];
         name = tokens[1];
     }
+
+    public String getName() {
+        return name;
+    }
 }

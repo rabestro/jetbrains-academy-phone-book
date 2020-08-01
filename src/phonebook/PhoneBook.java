@@ -2,9 +2,7 @@ package phonebook;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PhoneBook {
@@ -24,5 +22,22 @@ public class PhoneBook {
                 .tokens()
                 .map(PhoneBookEntry::new)
                 .collect(Collectors.toList());
+    }
+
+    public PhoneBookEntry getId(final int i) {
+        return records.get(i);
+    }
+
+    public int size() {
+        return records.size();
+    }
+
+    public Optional<PhoneBookEntry> findByNameLinearSearch(final String name) {
+        for (final var record : records) {
+            if (Objects.equals(record.getName(), name)) {
+                return Optional.of(record);
+            }
+        }
+        return Optional.empty();
     }
 }
