@@ -5,7 +5,7 @@ public class PhoneBookEntry {
     private final String name;
 
     PhoneBookEntry(final String line) {
-        var tokens = line.split(" ");
+        var tokens = line.split(" ", 2);
         phone = tokens[0];
         name = tokens[1];
     }
