@@ -20,8 +20,16 @@ public class PhoneBook {
                 .toArray(PhoneBookEntry[]::new);
     }
 
-    public PhoneBookEntry getId(final int i) {
+    public PhoneBookEntry get(final int i) {
         return records[i];
+    }
+
+    public void set(final int i, final PhoneBookEntry entry) {
+        records[i] = entry;
+    }
+
+    public String getName(final int i) {
+        return records[i].getName();
     }
 
     public int size() {
