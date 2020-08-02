@@ -72,7 +72,10 @@ public class PhoneBookTest extends StageTest {
                 "searching time",
                 "linear search",
                 "bubble sort",
-                "jump search");
+                "jump search",
+                "quick sort",
+                "binary search"
+        );
         if (!res.isCorrect()) {
             return res;
         }
@@ -80,14 +83,13 @@ public class PhoneBookTest extends StageTest {
         List<String> stat1 = findAll(reply, "500 / 500");
         List<String> stat2 = findAll(reply, "500/500");
         
-        if (stat1.size() + stat2.size() < 2) {
-            return CheckResult.wrong("Your output should contain twice the phrase `500 / 500`");
+        if (stat1.size() + stat2.size() < 3) {
+            return CheckResult.wrong("Your output should contain 3 times the phrase `500 / 500`");
         }
         
-        
         List<String> timestamps = findAll(reply, timeRegex);
-        if (timestamps.size() != 4) {
-            return CheckResult.wrong("Your output should contain 4 timer outputs, but found "
+        if (timestamps.size() != 7) {
+            return CheckResult.wrong("Your output should contain 7 timer outputs, but found "
                     + timestamps.size());
         }
         // should not fail..
@@ -95,13 +97,20 @@ public class PhoneBookTest extends StageTest {
         long t2 = parseTimestamp(timestamps.get(1));
         long t3 = parseTimestamp(timestamps.get(2));
         long t4 = parseTimestamp(timestamps.get(3));
+        long t5 = parseTimestamp(timestamps.get(4));
+        long t6 = parseTimestamp(timestamps.get(5));
+        long t7 = parseTimestamp(timestamps.get(6));
         
         if (Math.abs(t3 + t4 - t2) > 100) {
             return CheckResult.wrong("Your third and fourth timer outputs in total (sorting and searching) " +
                     "should be equal to the second (total search time).");
         }
+        if (Math.abs(t6 + t7 - t5) > 100) {
+            return CheckResult.wrong("Your 6-th and 7-th timer outputs in total (sorting and searching) " +
+                    "should be equal to the 5-th (total search time).");
+        }
         
-        long estimatedTime = t1 + t2;
+        long estimatedTime = t1 + t2 + t5;
         if (realTime < 1000) {
             return CheckResult.wrong("Your program completes too fast. Faster than a second!");
         }
@@ -109,13 +118,6 @@ public class PhoneBookTest extends StageTest {
         if (Math.abs(estimatedTime - realTime) > estimatedTime * 0.3) {
             return CheckResult.wrong("Your estimated time is not similar to real time the program works. " +
                     "Real time: " + realTime + "ms, estimated time: " + estimatedTime + "ms");
-        }
-        
-        if (reply.toLowerCase().contains("stopped")) {
-            if (t3 < t1) {
-                return CheckResult.wrong("You printed `stopped`, " +
-                        "but the sorting time was less than the first linear search time.");
-            }
         }
         
         return CheckResult.correct();
