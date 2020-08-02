@@ -31,4 +31,8 @@ public class SearchStatistic {
     public long getSearchTime() {
         return searchTime;
     }
+
+    public void addTime(long time) {
+        searchTime += time;
+    }
 }

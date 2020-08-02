@@ -12,9 +12,10 @@ public class LinearSearch implements SearchAlgorithm {
 
     @Override
     public long getNamesFound(PhoneBook phoneBook, String[] names) {
+
         final Function<String, Optional<PhoneBookEntry>> linearSearch = name -> {
             for (int i = phoneBook.size(); i-- > 0; ) {
-                if (Objects.equals(name, phoneBook.get(i).getName())) {
+                if (Objects.equals(name, phoneBook.getName(i))) {
                     return Optional.of(phoneBook.get(i));
                 }
             }

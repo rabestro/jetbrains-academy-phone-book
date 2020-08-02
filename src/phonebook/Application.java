@@ -7,6 +7,7 @@ import phonebook.search.SearchStatistic;
 import java.util.logging.Logger;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.setOut;
 
 public class Application implements Runnable {
     private static final Logger log = Logger.getLogger(Application.class.getName());
@@ -52,13 +53,17 @@ public class Application implements Runnable {
                 }
             }
         }
+
         final var sortingTime = currentTimeMillis() - start;
         final var stats = new SearchStatistic(phoneBook, names);
         stats.performSearch(isBreak ? new LinearSearch() : new JumpSearch());
+        final var searchTime =  stats.getSearchTime();
+        stats.addTime(sortingTime);
+        stats.printStatistics();
 
         System.out.print("Sorting time: " + formatTime(sortingTime));
         System.out.println(isBreak ? " - STOPPED, moved to linear search" : "");
-
+        System.out.println("Searching time: " + formatTime(searchTime));
     }
 
     private String formatTime(final long timeMillis) {
