@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class Main {
     private static final Logger log = Logger.getLogger(Main.class.getName());
