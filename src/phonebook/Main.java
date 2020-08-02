@@ -28,7 +28,7 @@ public class Main {
                 new Scanner(Files.readString(Path.of("/home/jegors/Downloads/find.txt")))
                         .useDelimiter("\\R")
                         .tokens()
-                        .collect(Collectors.toList())
+                        .toArray(String[]::new)
         ).run();
     }
 }

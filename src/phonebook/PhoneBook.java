@@ -1,18 +1,12 @@
 package phonebook;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class PhoneBook {
     private static final Logger log = Logger.getLogger(PhoneBook.class.getName());
 
-    private List<PhoneBookEntry> records;
-
-    public PhoneBook() {
-        this.records = new ArrayList<>();
-    }
+    private PhoneBookEntry[] records;
 
     public PhoneBook(final String url) {
         load(url);
@@ -23,15 +17,15 @@ public class PhoneBook {
                 .useDelimiter("\\R")
                 .tokens()
                 .map(PhoneBookEntry::new)
-                .collect(Collectors.toList());
+                .toArray(PhoneBookEntry[]::new);
     }
 
     public PhoneBookEntry getId(final int i) {
-        return records.get(i);
+        return records[i];
     }
 
     public int size() {
-        return records.size();
+        return records.length;
     }
 
     public Optional<PhoneBookEntry> findByNameLinearSearch(final String name) {
