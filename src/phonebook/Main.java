@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -26,7 +27,10 @@ public class Main {
         log.info("Program started.");
 
         new Application(
-                new PhoneBook(Files.readString(Path.of(DIRECTORY))),
+                LINE_DELIMITER
+                        .splitAsStream(Files.readString(Path.of(DIRECTORY)))
+                        .map(Record::new)
+                        .toArray(Record[]::new),
                 LINE_DELIMITER
                         .splitAsStream(Files.readString(Path.of(NAMES)))
                         .toArray(String[]::new)

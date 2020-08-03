@@ -1,21 +1,28 @@
-package phonebook.search;
+package phonebook.algorithm;
 
-import phonebook.PhoneBook;
+import phonebook.Record;
 
 import static java.lang.System.currentTimeMillis;
 
-public class SearchStatistic {
-    private final PhoneBook book;
+public class Statistics {
+    private final Record[] book;
     private final String[] names;
+    private long sortTime;
     private long searchTime;
     private long recordsFound;
 
-    public SearchStatistic(PhoneBook book, String[] names) {
-        this.book = book;
+    public Statistics(Record[] phoneBook, String[] names) {
+        this.book = phoneBook;
         this.names = names;
     }
 
-    public SearchStatistic performSearch(SearchAlgorithm algorithm) {
+    public Statistics performSort(SortAlgorithm algorithm, long maxTime) {
+        final var start = currentTimeMillis();
+        algorithm.sort(book);
+        sortTime = currentTimeMillis() - start;
+        return this;
+    }
+    public Statistics performSearch(SearchAlgorithm algorithm) {
         final var start = currentTimeMillis();
         recordsFound = algorithm.getNamesFound(book, names);
         searchTime = currentTimeMillis() - start;

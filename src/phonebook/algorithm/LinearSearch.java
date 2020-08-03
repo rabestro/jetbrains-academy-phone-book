@@ -1,7 +1,6 @@
-package phonebook.search;
+package phonebook.algorithm;
 
-import phonebook.PhoneBook;
-import phonebook.PhoneBookEntry;
+import phonebook.Record;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -11,12 +10,11 @@ import java.util.function.Function;
 public class LinearSearch implements SearchAlgorithm {
 
     @Override
-    public long getNamesFound(PhoneBook phoneBook, String[] names) {
-
-        final Function<String, Optional<PhoneBookEntry>> linearSearch = name -> {
-            for (int i = phoneBook.size(); i-- > 0; ) {
-                if (Objects.equals(name, phoneBook.getName(i))) {
-                    return Optional.of(phoneBook.get(i));
+    public long getNamesFound(Record[] phoneBook, String[] names) {
+        final Function<String, Optional<Record>> linearSearch = name -> {
+            for (int i = phoneBook.length; i-- > 0; ) {
+                if (Objects.equals(name, phoneBook[i].getName())) {
+                    return Optional.of(phoneBook[i]);
                 }
             }
             return Optional.empty();
