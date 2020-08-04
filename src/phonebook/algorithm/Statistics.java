@@ -16,12 +16,13 @@ public class Statistics {
         this.names = names;
     }
 
-    public Statistics performSort(SortAlgorithm algorithm, long maxTime) {
+    public Statistics performSort(SortAlgorithm algorithm) {
         final var start = currentTimeMillis();
         algorithm.sort(book);
         sortTime = currentTimeMillis() - start;
         return this;
     }
+
     public Statistics performSearch(SearchAlgorithm algorithm) {
         final var start = currentTimeMillis();
         recordsFound = algorithm.getNamesFound(book, names);
@@ -30,16 +31,15 @@ public class Statistics {
     }
 
     public void printStatistics() {
-        System.out.printf(
-                "Found %d / %d entries. Time taken: %3$TM min. %3$TS sec. %3$TL ms.%n",
-                recordsFound, names.length, searchTime);
+        System.out.println("Found " + recordsFound + " / " + names.length + " entries. Time taken: "
+                + formatTime(searchTime + sortTime));
+        if (sortTime > 0) {
+            System.out.println("Sorting time: " + formatTime(sortTime));
+            System.out.println("Searching time: " + formatTime(searchTime));
+        }
     }
 
-    public long getSearchTime() {
-        return searchTime;
-    }
-
-    public void addTime(long time) {
-        searchTime += time;
+    private String formatTime(final long timeMillis) {
+        return String.format("%1$TM min. %1$TS sec. %1$TL ms.", timeMillis);
     }
 }
