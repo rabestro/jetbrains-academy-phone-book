@@ -1,6 +1,6 @@
 package phonebook.algorithm;
 
-import phonebook.Record;
+import phonebook.Contact;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 public class QuickSort implements SortAlgorithm {
 
     @Override
-    public void sort(Record[] phoneBook) {
-        Arrays.sort(phoneBook, Comparator.comparing(Record::getName));
+    public void sort(Contact[] phoneBook) {
+        Arrays.sort(phoneBook, Comparator.comparing(Contact::getName));
     }
 }

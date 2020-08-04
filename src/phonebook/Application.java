@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 public class Application implements Runnable {
     private static final Logger log = Logger.getLogger(Application.class.getName());
 
-    private final Record[] phoneBook;
+    private final Contact[] phoneBook;
     private final String[] names;
 
-    public Application(final Record[] phoneBook, final String[] names) {
+    public Application(final Contact[] phoneBook, final String[] names) {
         this.phoneBook = phoneBook;
         this.names = names;
     }

@@ -1,6 +1,6 @@
 package phonebook.algorithm;
 
-import phonebook.Record;
+import phonebook.Contact;
 
 import java.util.concurrent.*;
 
@@ -9,14 +9,14 @@ import static java.lang.System.currentTimeMillis;
 public class Statistics {
     private static long maxTime = 100_000;
 
-    private final Record[] book;
+    private final Contact[] book;
     private final String[] names;
     private long sortTime;
     private long searchTime;
     private long recordsFound;
     private boolean isSorted = false;
 
-    public Statistics(Record[] phoneBook, String[] names) {
+    public Statistics(Contact[] phoneBook, String[] names) {
         this.book = phoneBook;
         this.names = names;
     }
@@ -51,7 +51,7 @@ public class Statistics {
         if (!isSorted) {
             algorithm = new LinearSearch();
         }
-        recordsFound = algorithm.getNamesFound(book, names);
+        recordsFound = algorithm.entriesFound(book, names);
         searchTime = currentTimeMillis() - start;
         return this;
     }

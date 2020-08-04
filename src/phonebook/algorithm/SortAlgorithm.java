@@ -1,8 +1,8 @@
 package phonebook.algorithm;
 
-import phonebook.Record;
+import phonebook.Contact;
 
 @FunctionalInterface
 public interface SortAlgorithm {
-    void sort(final Record[] phoneBook);
+    void sort(final Contact[] phoneBook);
 }

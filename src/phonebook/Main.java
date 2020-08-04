@@ -28,8 +28,8 @@ public class Main {
         new Application(
                 LINE_DELIMITER
                         .splitAsStream(Files.readString(Path.of(DIRECTORY)))
-                        .map(Record::new)
-                        .toArray(Record[]::new),
+                        .map(Contact::new)
+                        .toArray(Contact[]::new),
                 LINE_DELIMITER
                         .splitAsStream(Files.readString(Path.of(NAMES)))
                         .toArray(String[]::new)
