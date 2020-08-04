@@ -1,9 +1,6 @@
 package phonebook;
 
-import phonebook.algorithm.BubbleSort;
-import phonebook.algorithm.JumpSearch;
-import phonebook.algorithm.LinearSearch;
-import phonebook.algorithm.Statistics;
+import phonebook.algorithm.*;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -24,6 +21,7 @@ public class Application implements Runnable {
         log.info("Start searching...");
         linearSearch();
         bubbleSortJumpSearch();
+        quickSortBinarySearch();
     }
 
     private void linearSearch() {
@@ -40,6 +38,15 @@ public class Application implements Runnable {
         new Statistics(Arrays.copyOf(phoneBook, phoneBook.length), names)
                 .performSort(new BubbleSort())
                 .performSearch(new JumpSearch())
+                .printStatistics();
+    }
+
+    private void quickSortBinarySearch() {
+        System.out.println("Start searching (quick sort + binary search)...");
+
+        new Statistics(Arrays.copyOf(phoneBook, phoneBook.length), names)
+                .performSort(new QuickSort())
+                .performSearch(new BinarySearch())
                 .printStatistics();
     }
 }
