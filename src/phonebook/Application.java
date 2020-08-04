@@ -1,22 +1,17 @@
 package phonebook;
 
-import phonebook.search.JumpSearch;
-import phonebook.search.LinearSearch;
-import phonebook.search.SearchStatistic;
+import phonebook.algorithm.*;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
-
-import static java.lang.System.currentTimeMillis;
-import static java.lang.System.setOut;
 
 public class Application implements Runnable {
     private static final Logger log = Logger.getLogger(Application.class.getName());
 
-    private final PhoneBook phoneBook;
+    private final Record[] phoneBook;
     private final String[] names;
-    private long bubbleSortMaxTime;
 
-    public Application(final PhoneBook phoneBook, final String[] names) {
+    public Application(final Record[] phoneBook, final String[] names) {
         this.phoneBook = phoneBook;
         this.names = names;
     }
@@ -26,47 +21,32 @@ public class Application implements Runnable {
         log.info("Start searching...");
         linearSearch();
         bubbleSortJumpSearch();
+        quickSortBinarySearch();
     }
 
     private void linearSearch() {
         System.out.println("Start searching (linear search)..");
-        final var stats = new SearchStatistic(phoneBook, names);
-        stats.performSearch(new LinearSearch());
-        stats.printStatistics();
-        bubbleSortMaxTime = stats.getSearchTime() * 500;
+
+        new Statistics(phoneBook, names)
+                .performSearch(new LinearSearch())
+                .printStatistics();
     }
 
     private void bubbleSortJumpSearch() {
         System.out.println("Start searching (bubble sort + jump search)...");
-        final var start = currentTimeMillis();
-        var isBreak = false;
-        for (int i = 0; i < phoneBook.size() - 1; i++) {
-            isBreak = currentTimeMillis() - start > bubbleSortMaxTime;
-            if (isBreak) {
-                break;
-            }
-            for (int j = 0; j < phoneBook.size() - i - 1; j++) {
-                if (phoneBook.getName(j).compareTo(phoneBook.getName(j + 1)) > 0) {
-                    final var temp = phoneBook.get(j);
-                    phoneBook.set(j, phoneBook.get(j + 1));
-                    phoneBook.set(j + 1, temp);
-                }
-            }
-        }
 
-        final var sortingTime = currentTimeMillis() - start;
-        final var stats = new SearchStatistic(phoneBook, names);
-        stats.performSearch(isBreak ? new LinearSearch() : new JumpSearch());
-        final var searchTime =  stats.getSearchTime();
-        stats.addTime(sortingTime);
-        stats.printStatistics();
-
-        System.out.print("Sorting time: " + formatTime(sortingTime));
-        System.out.println(isBreak ? " - STOPPED, moved to linear search" : "");
-        System.out.println("Searching time: " + formatTime(searchTime));
+        new Statistics(Arrays.copyOf(phoneBook, phoneBook.length), names)
+                .performSort(new BubbleSort())
+                .performSearch(new JumpSearch())
+                .printStatistics();
     }
 
-    private String formatTime(final long timeMillis) {
-        return String.format("%1$TM min. %1$TS sec. %1$TL ms.", timeMillis);
+    private void quickSortBinarySearch() {
+        System.out.println("Start searching (quick sort + binary search)...");
+
+        new Statistics(Arrays.copyOf(phoneBook, phoneBook.length), names)
+                .performSort(new QuickSort())
+                .performSearch(new BinarySearch())
+                .printStatistics();
     }
 }

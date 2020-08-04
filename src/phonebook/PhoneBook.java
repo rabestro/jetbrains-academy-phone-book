@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 public class PhoneBook {
     private static final Logger log = Logger.getLogger(PhoneBook.class.getName());
 
-    private PhoneBookEntry[] records;
+    private Record[] records;
 
     public PhoneBook(final String url) {
         load(url);
@@ -16,15 +16,15 @@ public class PhoneBook {
         records = new Scanner(data)
                 .useDelimiter("\\R")
                 .tokens()
-                .map(PhoneBookEntry::new)
-                .toArray(PhoneBookEntry[]::new);
+                .map(Record::new)
+                .toArray(Record[]::new);
     }
 
-    public PhoneBookEntry get(final int i) {
+    public Record get(final int i) {
         return records[i];
     }
 
-    public void set(final int i, final PhoneBookEntry entry) {
+    public void set(final int i, final Record entry) {
         records[i] = entry;
     }
 
@@ -36,7 +36,7 @@ public class PhoneBook {
         return records.length;
     }
 
-    public Optional<PhoneBookEntry> findByNameLinearSearch(final String name) {
+    public Optional<Record> findByNameLinearSearch(final String name) {
         log.fine("Looking for a name = " + name);
         for (final var record : records) {
             if (Objects.equals(record.getName(), name)) {

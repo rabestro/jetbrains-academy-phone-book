@@ -1,7 +1,6 @@
-package phonebook.search;
+package phonebook.algorithm;
 
-import phonebook.PhoneBook;
-import phonebook.PhoneBookEntry;
+import phonebook.Record;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -10,24 +9,24 @@ import java.util.function.Function;
 
 public class JumpSearch implements SearchAlgorithm {
     @Override
-    public long getNamesFound(PhoneBook phoneBook, String[] names) {
+    public long getNamesFound(Record[] phoneBook, String[] names) {
 
-        final Function<String, Optional<PhoneBookEntry>> jumpSearch = name -> {
-            if (Objects.equals(name, phoneBook.get(0).getName())) {
-                return Optional.of(phoneBook.get(0));
+        final Function<String, Optional<Record>> jumpSearch = name -> {
+            if (Objects.equals(name, phoneBook[0].getName())) {
+                return Optional.of(phoneBook[0]);
             }
-            final var jumpLength = (int) Math.sqrt(phoneBook.size());
+            final var jumpLength = (int) Math.sqrt(phoneBook.length);
 
             int currentRight = 0; // right border of the current block
             int prevRight = 0; // right border of the previous block
 
             /* Finding a block where the element may be present */
-            while (currentRight < phoneBook.size() - 1) {
+            while (currentRight < phoneBook.length - 1) {
 
                 /* Calculating the right border of the following block */
-                currentRight = Math.min(phoneBook.size() - 1, currentRight + jumpLength);
+                currentRight = Math.min(phoneBook.length - 1, currentRight + jumpLength);
 
-                if (phoneBook.getName(currentRight).compareTo(name) >= 0) {
+                if (phoneBook[currentRight].getName().compareTo(name) >= 0) {
                     break; // Found a block that may contain the target element
                 }
                 prevRight = currentRight; // update the previous right block border
@@ -35,13 +34,13 @@ public class JumpSearch implements SearchAlgorithm {
 
 
             /* If the last block is reached and it cannot contain the target value => not found */
-            if ((currentRight == phoneBook.size() - 1) && name.compareTo(phoneBook.getName(currentRight)) > 0) {
+            if ((currentRight == phoneBook.length - 1) && name.compareTo(phoneBook[currentRight].getName()) > 0) {
                 return Optional.empty();
             }
 
             for (int i = currentRight; i > prevRight; --i) {
-                if (Objects.equals(name, phoneBook.getName(i))) {
-                    return Optional.of(phoneBook.get(i));
+                if (Objects.equals(name, phoneBook[i].getName())) {
+                    return Optional.of(phoneBook[i]);
                 }
             }
             return Optional.empty();
